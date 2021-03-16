@@ -1,4 +1,4 @@
-import {Comment, CommentId, Commit, Entity, Issue, Summary, UUID} from "./types";
+import {Comment, CommentId, Commit, Entity, Issue, Summary} from "./types";
 
 export const getSummaries = (commits: Commit[], entities: Entity[]): Summary[] => {
     const summaryIds: { [key: string]: boolean } = {};

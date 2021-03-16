@@ -17,5 +17,6 @@ data = {
  |              |                     |
 
 Formatter as stand alone object
-
 activitySlide 85ms -> 22.7ms
+
+JSON parsing of big file(35M) takes 478 ms

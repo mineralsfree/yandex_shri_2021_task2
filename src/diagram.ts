@@ -1,5 +1,6 @@
 import {Commit, Entity, Sprint} from "./types";
 import {DiagramData} from "./stories";
+import  fs from "fs";
 
 export const diagramSlide = (sprint: Sprint, previousSprint: Sprint, commits: Commit[], allCommits: Commit[], entities: Entity[]): DiagramData => {
     const previousCommits = allCommits.filter((el) => el.timestamp > previousSprint.startAt && el.timestamp < previousSprint.finishAt);
@@ -22,12 +23,16 @@ export const diagramSlide = (sprint: Sprint, previousSprint: Sprint, commits: Co
     const currentStats =  new Array(4).fill(0);
     const previousStats =  new Array(4).fill(0);
     const resolveArray = [100, 500, 1000, Infinity]
+    // let kek: any = [];
     entities.forEach((entity) => {
         if (entity.type === 'Summary') {
             let stats;
             if (currentSummaryIds[entity.id]) {
                 stats = currentStats
+                // kek.push(entity)
             } else if (previousSummaryIds[entity.id]) {
+                // kek.push(entity)
+
                 stats = previousStats
             } else {
               return;
@@ -36,6 +41,7 @@ export const diagramSlide = (sprint: Sprint, previousSprint: Sprint, commits: Co
             stats[resolveArray.findIndex((num) => diff <= num)]++;
         }
     })
+    // fs.writeFileSync('summary.json', JSON.stringify(kek));
     const titleArray =["> 1001 строки", "501 — 1000 строк","101 — 500 строк","1 — 100 строк"]
 return{
     title: "Размер коммитов",
