@@ -1,39 +1,44 @@
-import {Commit, Entity, Sprint} from "./types";
-import {DiagramData} from "./stories";
-import  fs from "fs";
+import {Commit, Entity, Sprint} from "./types/types";
+import {DiagramData} from "./types/stories";
 
 export const diagramSlide = (sprint: Sprint, previousSprint: Sprint, commits: Commit[], allCommits: Commit[], entities: Entity[]): DiagramData => {
-    const previousCommits = allCommits.filter((el) => el.timestamp > previousSprint.startAt && el.timestamp < previousSprint.finishAt);
+
+    const previousCommits = previousSprint ? allCommits.filter((el) => el.timestamp > previousSprint.startAt && el.timestamp < previousSprint.finishAt) : [];
     const currentSummaryIds: { [key: string]: boolean } = {};
     const previousSummaryIds: { [key: string]: boolean } = {};
-    commits.forEach((el) => {
-        if (Array.isArray(el.summaries)) {
-            el.summaries.forEach((id) => currentSummaryIds[id] = true);
-        } else {
-            currentSummaryIds[el.summaries.id]=true;
-        }
+    commits.forEach((commit) => {
+        commit.summaries.forEach(summary=>{
+            if (typeof summary ==='number'){
+                currentSummaryIds[summary] = true;
+            } else {
+                currentSummaryIds[summary.id] = true;
+            }
+        })
     })
-    previousCommits.forEach((el) => {
-        if (Array.isArray(el.summaries)) {
-            el.summaries.forEach((id) => previousSummaryIds[id] =true);
-        } else {
-            previousSummaryIds[el.summaries.id] =true;
-        }
+    previousCommits.forEach((commit) => {
+        commit.summaries.forEach(summary=>{
+            if (typeof summary ==='number'){
+                previousSummaryIds[summary] = true;
+            } else {
+                previousSummaryIds[summary.id] = true;
+            }
+        })
     })
     const currentStats =  new Array(4).fill(0);
     const previousStats =  new Array(4).fill(0);
     const resolveArray = [100, 500, 1000, Infinity]
-    // let kek: any = [];
+    let i = 0;
     entities.forEach((entity) => {
         if (entity.type === 'Summary') {
             let stats;
+
             if (currentSummaryIds[entity.id]) {
                 stats = currentStats
-                // kek.push(entity)
-            } else if (previousSummaryIds[entity.id]) {
-                // kek.push(entity)
+                i+=(entity.added + entity.removed)
 
+            } else if (previousSummaryIds[entity.id]) {
                 stats = previousStats
+                i-=(entity.added + entity.removed)
             } else {
               return;
             }
@@ -41,13 +46,12 @@ export const diagramSlide = (sprint: Sprint, previousSprint: Sprint, commits: Co
             stats[resolveArray.findIndex((num) => diff <= num)]++;
         }
     })
-    // fs.writeFileSync('summary.json', JSON.stringify(kek));
     const titleArray =["> 1001 строки", "501 — 1000 строк","101 — 500 строк","1 — 100 строк"]
 return{
     title: "Размер коммитов",
     subtitle: `Спринт ${sprint.name}`,
     totalText: `${commits.length}`,
-    differenceText: `${commits.length>previousCommits.length ? '+' : ''}${(commits.length-previousCommits.length)} с прошлого спринта`,
+    differenceText: `${i ? '+' : ''}${i} с прошлого спринта`,
     categories: titleArray.map((title, i)=>({
         title,
         valueText: `${currentStats[i]} коммитов`,

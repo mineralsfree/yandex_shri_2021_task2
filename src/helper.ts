@@ -1,15 +1,15 @@
-import {Comment, CommentId, Commit, Entity, Issue, Summary} from "./types";
+import {Comment, CommentId, Commit, Entity, Issue, Summary} from "./types/types";
 
 export const getSummaries = (commits: Commit[], entities: Entity[]): Summary[] => {
     const summaryIds: { [key: string]: boolean } = {};
     commits.forEach((commit) => {
-            if (Array.isArray(commit.summaries)) {
-                commit.summaries.forEach((summaryId) => {
-                    summaryIds[summaryId] = true;
+                commit.summaries.forEach((summary) => {
+                    if(typeof summary === 'number'){
+                        summaryIds[summary] = true;
+                    } else {
+                        summaryIds[summary.id] =true;
+                    }
                 })
-            } else {
-                return [commit.summaries];
-            }
         }
     );
 

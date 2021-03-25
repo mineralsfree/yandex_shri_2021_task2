@@ -1,5 +1,5 @@
-import {Commit, Sprint, User} from "./types";
-import {LeadersData, User as StoryUser} from "./stories";
+import {Commit, Sprint, User} from "./types/types";
+import {LeadersData, User as StoryUser} from "./types/stories";
 
 export const leadersSlide = (commits: Commit[], users: User[], sprint: Sprint): LeadersData => {
     const retUsers: StoryUser[] = users.map(({id, avatar, name}) => ({id, avatar, name, valueText: ''}));

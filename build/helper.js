@@ -4,14 +4,14 @@ exports.getComments = exports.getSummaries = void 0;
 const getSummaries = (commits, entities) => {
     const summaryIds = {};
     commits.forEach((commit) => {
-        if (Array.isArray(commit.summaries)) {
-            commit.summaries.forEach((summaryId) => {
-                summaryIds[summaryId] = true;
-            });
-        }
-        else {
-            return [commit.summaries];
-        }
+        commit.summaries.forEach((summary) => {
+            if (typeof summary === 'number') {
+                summaryIds[summary] = true;
+            }
+            else {
+                summaryIds[summary.id] = true;
+            }
+        });
     });
     return entities.filter((entity) => entity.type === 'Summary' && summaryIds[entity.id]);
 };

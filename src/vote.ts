@@ -1,5 +1,5 @@
-import {Comment, CommentId, Entity, Issue, Sprint, Summary, User} from "./types";
-import {User as StoryUser, VoteData} from "./stories";
+import {Comment, CommentId, Entity, Issue, Sprint, Summary, User} from "./types/types";
+import {User as StoryUser, VoteData} from "./types/stories";
 
 export const voteSlide = (users: User[], comments: Comment[], sprint: Sprint): VoteData => {
 

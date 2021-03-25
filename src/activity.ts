@@ -1,5 +1,5 @@
-import {Commit, Sprint} from "./types";
-import {ActivityData, StoryData} from "./stories";
+import {Commit, Sprint} from "./types/types";
+import {ActivityData, StoryData} from "./types/stories";
 
 type dayOfWeek = 'mon' | 'tue' | 'wed' | 'thu' | 'fri' | 'sat' | 'sun';
 
