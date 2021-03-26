@@ -4,11 +4,10 @@
   "description": "",
   "main": "src/index.ts",
   "scripts": {
-    "start": "tsc --watch",
+    "start": "tsc && node build/index.js",
     "dev": "nodemon",
     "test": "jest --coverage",
-    "test:watch": "jest --coverage --watchAll",
-    "build": "webpack"
+    "test:watch": "jest --coverage --watchAll"
   },
   "author": "",
   "license": "ISC",
