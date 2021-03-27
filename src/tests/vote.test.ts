@@ -5,7 +5,6 @@ import {users, sprint} from './mocks/common.mock'
 import {defaultResult, emptyValueResult} from './mocks/vote.mock'
 describe('vote slide',()=>{
     const comments: Comment[] = <Comment[]>Comments;
-        console.log(voteSlide(users, [], sprint))
      it('should return valid out', ()=>{
          expect(voteSlide(users, comments, sprint)).toEqual(defaultResult)
     })

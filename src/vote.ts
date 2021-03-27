@@ -1,5 +1,6 @@
 import {Comment, CommentId, Entity, Issue, Sprint, Summary, User} from "./types/types";
 import {User as StoryUser, VoteData} from "./types/stories";
+import {getEndings} from "./helper";
 
 export const voteSlide = (users: User[], comments: Comment[], sprint: Sprint): VoteData => {
 
@@ -16,7 +17,11 @@ export const voteSlide = (users: User[], comments: Comment[], sprint: Sprint): V
         title: 'Самый 🔎 внимательный разработчик',
         subtitle: `Спринт ${sprint.name}`,
         emoji: '🔎',
-        users: retUsers.map((user) => ({...user, valueText: (userIDsValue[user.id] && userIDsValue[user.id].toString()) || '0'}))
-            .sort((a, b) => Number(b.valueText) - Number(a.valueText))
+        users: retUsers.map((user) => {
+            const value = userIDsValue[user.id]
+            return ({...user,
+                valueText: ((value && value.toString()) || '0') + ' ' + getEndings('голос', value || 0)})
+        })
+            .sort((a, b) => Number(b.valueText.split(' ')[0]) - Number(a.valueText.split(' ')[0]))
     }
 }

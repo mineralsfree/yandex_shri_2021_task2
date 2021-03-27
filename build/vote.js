@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.voteSlide = void 0;
+const helper_1 = require("./helper");
 const voteSlide = (users, comments, sprint) => {
     const retUsers = users.map(({ id, avatar, name }) => ({ id, avatar, name, valueText: '' }));
     const userIDsValue = {};
@@ -16,8 +17,11 @@ const voteSlide = (users, comments, sprint) => {
         title: 'Самый 🔎 внимательный разработчик',
         subtitle: `Спринт ${sprint.name}`,
         emoji: '🔎',
-        users: retUsers.map((user) => (Object.assign(Object.assign({}, user), { valueText: (userIDsValue[user.id] && userIDsValue[user.id].toString()) || '0' })))
-            .sort((a, b) => Number(b.valueText) - Number(a.valueText))
+        users: retUsers.map((user) => {
+            const value = userIDsValue[user.id];
+            return (Object.assign(Object.assign({}, user), { valueText: ((value && value.toString()) || '0') + ' ' + helper_1.getEndings('голос', value || 0) }));
+        })
+            .sort((a, b) => Number(b.valueText.split(' ')[0]) - Number(a.valueText.split(' ')[0]))
     };
 };
 exports.voteSlide = voteSlide;

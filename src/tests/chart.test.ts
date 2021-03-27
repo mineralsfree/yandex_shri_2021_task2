@@ -12,4 +12,7 @@ describe('chart slide', ()=>{
     it('should return valid out', ()=>{
              expect(chartSlide(allCommits,sprints, sprint, leaders )).toEqual(chartOutput)
     })
+    it('sum of commits should be equal commit length',()=>{
+        expect(chartSlide(allCommits,sprints, sprint, leaders ).values.reduce((a,b)=>a+b.value,0)).toEqual(allCommits.length);
+    })
 })

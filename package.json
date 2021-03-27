@@ -5,7 +5,7 @@
   "main": "src/index.ts",
   "scripts": {
     "start": "tsc && node build/index.js",
-    "dev": "nodemon",
+    "dev": "tsc --watch",
     "test": "jest --coverage",
     "test:watch": "jest --coverage --watchAll"
   },

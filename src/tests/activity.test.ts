@@ -11,4 +11,8 @@ describe('Activity slide', ()=>{
     it ('should return zeroed array on empty commit array', ()=>{
         expect(activitySlide([], sprint)).toEqual( activityEmpty);
     })
+    it('should be equal to number of commits this sprint', ()=>{
+        expect(Object.values(activitySlide(commits, sprint).data).reduce((a,b)=>a+b.reduce((c,d)=>c+d,0),0)).toBe(354)
+
+    })
 })
